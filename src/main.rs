@@ -1,8 +1,10 @@
-mod vecmath;
+mod raytracer;
 
 use std::fs::File;
 use std::io::prelude::*;
-use vecmath::Vec3;
+
+use raytracer::vec::Vec3;
+use raytracer::ray::Ray;
 
 fn main() {
     let mut ray_file = File::create("raycast.ppm").unwrap();
