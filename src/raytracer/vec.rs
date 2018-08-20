@@ -1,9 +1,10 @@
 use std;
 
+#[derive(Copy, Clone)]
 pub struct Vec3 {
-  x: f32,
-  y: f32,
-  z: f32,
+  pub x: f32,
+  pub y: f32,
+  pub z: f32,
 }
 
 impl Vec3 {
@@ -17,6 +18,10 @@ impl Vec3 {
 
   pub fn length(&self) -> f32 {
     (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
+  }
+
+  pub fn unit_vector(vec: Vec3) -> Vec3 {
+    vec / vec.length()
   }
 
   pub fn make_unit_vector(&self) -> Vec3 {
@@ -39,6 +44,14 @@ impl std::ops::Add for Vec3 {
   }
 }
 
+impl std::ops::Add<f32> for Vec3 {
+  type Output = Vec3;
+
+  fn add(self, other: f32) -> Vec3 {
+    Vec3 { x: self.x + other, y: self.y + other, z: self.z + other }
+  }
+}
+
 impl std::ops::Sub for Vec3 {
   type Output = Vec3;
 
@@ -55,10 +68,27 @@ impl std::ops::Div for Vec3 {
   }
 }
 
+impl std::ops::Div<f32> for Vec3 {
+  type Output = Vec3;
+  
+  
+  fn div(self, other: f32) -> Vec3 {
+    Vec3 { x: self.x / other, y: self.y / other, z: self.z / other }
+  }
+}
+
 impl std::ops::Mul for Vec3 {
   type Output = Vec3;
 
   fn mul(self, other: Vec3) -> Vec3 {
     Vec3 { x: self.x * other.x, y: self.y * other.y, z: self.z * other.z }
+  }
+}
+
+impl std::ops::Mul<f32> for Vec3 {
+  type Output = Vec3;
+
+  fn mul(self, other: f32) -> Vec3 {
+    Vec3 { x: self.x * other, y: self.y * other, z: self.z * other }
   }
 }
