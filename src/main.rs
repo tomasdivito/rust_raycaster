@@ -29,9 +29,9 @@ fn main() {
             let ir = (col.x * 255.99) as i64;
             let ig = (col.y * 255.99) as i64;
             let ib = (col.z * 255.99) as i64;
-            ray_file.write_all(format!("{} {} {}\n", ir, ig, ib)
-                   .as_bytes())
-                   .unwrap();
+            ray_file
+                .write_all(format!("{} {} {}\n", ir, ig, ib).as_bytes())
+                .unwrap();
         }
     }
 }
