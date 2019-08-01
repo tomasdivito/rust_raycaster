@@ -1,4 +1,4 @@
-use std;
+use std::{fmt, ops};
 
 #[derive(Copy, Clone)]
 pub struct Vec3 {
@@ -24,7 +24,7 @@ impl Vec3 {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
 
-    pub fn unit_vector(vec: Vec3) -> Vec3 {
+    pub fn unit_vector(vec: &Vec3) -> Vec3 {
         vec / vec.length()
     }
 
@@ -36,18 +36,22 @@ impl Vec3 {
             z: self.z * k,
         }
     }
+
+    pub fn dot_product(vec1: &Vec3, vec2: &Vec3) -> f32 {
+        vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z
+    }
 }
 
-impl std::fmt::Display for Vec3 {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl fmt::Display for Vec3 {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{} {} {}", self.x, self.y, self.z)
     }
 }
 
-impl std::ops::Add for Vec3 {
+impl<'a, 'b> ops::Add<&'b Vec3> for &'a Vec3 {
     type Output = Vec3;
 
-    fn add(self, other: Vec3) -> Vec3 {
+    fn add(self, other: &'b Vec3) -> Vec3 {
         Vec3 {
             x: self.x + other.x,
             y: self.y + other.y,
@@ -56,7 +60,7 @@ impl std::ops::Add for Vec3 {
     }
 }
 
-impl std::ops::Add<f32> for Vec3 {
+impl<'a> ops::Add<f32> for &'a Vec3 {
     type Output = Vec3;
 
     fn add(self, other: f32) -> Vec3 {
@@ -68,10 +72,10 @@ impl std::ops::Add<f32> for Vec3 {
     }
 }
 
-impl std::ops::Sub for Vec3 {
+impl<'a, 'b> ops::Sub<&'b Vec3> for &'a Vec3 {
     type Output = Vec3;
 
-    fn sub(self, other: Vec3) -> Vec3 {
+    fn sub(self, other: &'b Vec3) -> Vec3 {
         Vec3 {
             x: self.x - other.x,
             y: self.y - other.y,
@@ -80,10 +84,10 @@ impl std::ops::Sub for Vec3 {
     }
 }
 
-impl std::ops::Div for Vec3 {
+impl<'a, 'b> ops::Div<&'b Vec3> for &'a Vec3 {
     type Output = Vec3;
 
-    fn div(self, other: Vec3) -> Vec3 {
+    fn div(self, other: &'b Vec3) -> Vec3 {
         Vec3 {
             x: self.x / other.x,
             y: self.y / other.y,
@@ -92,7 +96,7 @@ impl std::ops::Div for Vec3 {
     }
 }
 
-impl std::ops::Div<f32> for Vec3 {
+impl<'a> ops::Div<f32> for &'a Vec3 {
     type Output = Vec3;
 
     fn div(self, other: f32) -> Vec3 {
@@ -104,10 +108,10 @@ impl std::ops::Div<f32> for Vec3 {
     }
 }
 
-impl std::ops::Mul for Vec3 {
+impl<'a, 'b> ops::Mul<&'b Vec3> for &'a Vec3 {
     type Output = Vec3;
 
-    fn mul(self, other: Vec3) -> Vec3 {
+    fn mul(self, other: &'b Vec3) -> Vec3 {
         Vec3 {
             x: self.x * other.x,
             y: self.y * other.y,
@@ -116,7 +120,7 @@ impl std::ops::Mul for Vec3 {
     }
 }
 
-impl std::ops::Mul<f32> for Vec3 {
+impl<'a> ops::Mul<f32> for &'a Vec3 {
     type Output = Vec3;
 
     fn mul(self, other: f32) -> Vec3 {

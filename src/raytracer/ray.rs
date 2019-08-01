@@ -1,17 +1,17 @@
 use raytracer::vec::Vec3;
 
 #[derive(Copy, Clone)]
-pub struct Ray {
-    pub origin: Vec3,
-    pub direction: Vec3,
+pub struct Ray<'a> {
+    pub origin: &'a Vec3,
+    pub direction: &'a Vec3,
 }
 
-impl Ray {
-    pub fn new(origin: Vec3, direction: Vec3) -> Ray {
+impl<'a> Ray<'a> {
+    pub fn new(origin: &'a Vec3, direction: &'a Vec3) -> Ray<'a> {
         Ray { origin, direction }
     }
 
     pub fn point_at_param(self, t: f32) -> Vec3 {
-        self.origin + self.direction * t
+        self.origin + &(self.direction * t)
     }
 }

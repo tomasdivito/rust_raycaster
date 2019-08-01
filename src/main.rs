@@ -23,7 +23,7 @@ fn main() {
         for x in 0..width {
             let u: f32 = width as f32 / x as f32;
             let v: f32 = height as f32 / y as f32;
-            let ray = Ray::new(origin, lower_left_corner + horizontal * u + vertical * v);
+            let ray = Ray::new(&origin, lower_left_corner + &horizontal * u + vertical * v);
             let col = color(&ray);
 
             let ir = (col.x * 255.99) as i64;
@@ -36,8 +36,22 @@ fn main() {
     }
 }
 
+fn hit_sphere(center: &Vec3, radius: f32, ray: &Ray) -> bool {
+    let oc = ray.origin - center;
+    let a = Vec3::dot_product(&ray.direction, &ray.origin);
+    let b = 2.0 * Vec3::dot_product(&oc, &ray.direction);
+    let c = Vec3::dot_product(&oc, &oc) - radius * radius;
+    let discriminant: f32 = b * b - 4.0 * a * c;
+
+    discriminant > 0.0
+}
+
 fn color(ray: &Ray) -> Vec3 {
-    let unit_direction = Vec3::unit_vector(ray.direction);
+    if hit_sphere(&Vec3::from(0.0, 0.0, -1.0), 0.5, ray) {
+        return Vec3::from(1.0, 0.0, 0.0);
+    }
+    let unit_direction = Vec3::unit_vector(&ray.direction);
     let t = 0.5 * (unit_direction.y + 1.0);
-    Vec3::from(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::from(0.5, 0.7, 1.0) * t
+
+    &(&Vec3::from(1.0, 1.0, 1.0) * (1.0 - t)) + &(&Vec3::from(0.5, 0.7, 1.0) * t)
 }
